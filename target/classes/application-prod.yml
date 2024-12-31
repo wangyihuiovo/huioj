@@ -1,0 +1,39 @@
+# 线上配置文件
+#
+server:
+  port: 8101
+spring:
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://117.72.121.39:3306/my_db
+    username: my_db
+    password: wangyihui666
+  # Redis 配置
+  # todo 需替换配置
+  redis:
+    database: 1
+    host: 117.72.121.39
+    port: 6379
+    timeout: 5000
+    password: wangyihui666
+mybatis-plus:
+  configuration:
+    # 生产环境关闭日志
+    log-impl: ''
+# 接口文档配置
+# 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: "接口文档"
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.yihui.huioj.controller
+
+# 代码沙箱配置
+codesandbox:
+  type: remote

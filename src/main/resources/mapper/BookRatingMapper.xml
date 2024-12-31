@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.BookRatingMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.BookRating">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="bookId" column="bookId" jdbcType="BIGINT"/>
+            <result property="rating" column="rating" jdbcType="TINYINT"/>
+            <result property="created_time" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updated_time" column="updated_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,bookId,
+        rating,created_time,updated_time
+    </sql>
+</mapper>

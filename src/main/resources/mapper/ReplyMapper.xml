@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.ReplyMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.Reply">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="commentId" column="commentId" jdbcType="BIGINT"/>
+            <result property="fromUid" column="fromUid" jdbcType="BIGINT"/>
+            <result property="fromName" column="fromName" jdbcType="VARCHAR"/>
+            <result property="fromAvatar" column="fromAvatar" jdbcType="VARCHAR"/>
+            <result property="toUid" column="toUid" jdbcType="BIGINT"/>
+            <result property="toName" column="toName" jdbcType="VARCHAR"/>
+            <result property="toAvatar" column="toAvatar" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="thumbNum" column="thumbNum" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,commentId,fromUid,
+        fromName,fromAvatar,toUid,
+        toName,toAvatar,content,
+        thumbNum,status,createTime,
+        updateTime
+    </sql>
+</mapper>

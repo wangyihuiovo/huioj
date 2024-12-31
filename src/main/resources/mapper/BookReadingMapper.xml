@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.BookReadingMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.BookReading">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="bookId" column="bookId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="lastReadChapterId" column="lastReadChapterId" jdbcType="INTEGER"/>
+            <result property="lastReadSectionId" column="lastReadSectionId" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,bookId,userId,
+        lastReadChapterId,lastReadSectionId,createTime
+    </sql>
+</mapper>

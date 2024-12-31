@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.BookFavourMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.BookFavour">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="bookId" column="bookId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,bookId,userId,
+        createTime,updateTime
+    </sql>
+
+    <select id="listFavourBookByPage"
+            resultType="com.yihui.huioj.model.entity.Book">
+        select b.*
+        from book b
+                 join (select bookId from book_favour where userId = #{favourUserId}) bf
+                      on b.id = bf.bookId ${ew.customSqlSegment}
+    </select>
+</mapper>

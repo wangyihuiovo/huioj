@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.Comment">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="pid" column="pid" jdbcType="BIGINT"/>
+        <result property="fromUid" column="fromUid" jdbcType="BIGINT"/>
+        <result property="fromName" column="fromName" jdbcType="VARCHAR"/>
+        <result property="fromAvatar" column="fromAvatar" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="thumbNum" column="thumbNum" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,pid,fromUid,
+        fromName,fromAvatar,content,
+        thumbNum,status,createTime,
+        updateTime
+    </sql>
+</mapper>

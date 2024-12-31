@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihui.huioj.mapper.SectionMapper">
+
+    <resultMap id="BaseResultMap" type="com.yihui.huioj.model.entity.Section">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="chapterId" column="chapterId" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="orderNum" column="orderNum" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,chapterId,title,
+        content,orderNum,createTime,
+        updateTime
+    </sql>
+</mapper>
