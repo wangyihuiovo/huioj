@@ -1,4 +1,4 @@
-package com.yihui.huioj.judge.strategy;
+package com.yihui.huioj.strategy;
 
 import cn.hutool.json.JSONUtil;
 import com.yihui.huioj.model.dto.question.JudgeCase;

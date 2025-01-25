@@ -11,7 +11,7 @@ import com.yihui.huioj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yihui.huioj.judge.codesandbox.model.ExecuteCodeResponse;
 
 
-import com.yihui.huioj.judge.strategy.JudgeContext;
+import com.yihui.huioj.strategy.JudgeContext;
 
 import com.yihui.huioj.model.dto.question.JudgeCase;
 

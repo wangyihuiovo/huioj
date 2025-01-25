@@ -1,4 +1,4 @@
-package com.yihui.huioj.judge.strategy;
+package com.yihui.huioj.strategy;
 
 import com.yihui.huioj.judge.codesandbox.model.JudgeInfo;
 

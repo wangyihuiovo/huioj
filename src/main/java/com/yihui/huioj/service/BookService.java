@@ -3,9 +3,7 @@ package com.yihui.huioj.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yihui.huioj.model.entity.Book;
-import com.yihui.huioj.model.entity.Post;
 import com.yihui.huioj.model.vo.BookVO;
-import com.yihui.huioj.model.vo.PostVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +20,7 @@ public interface BookService extends IService<Book> {
      * @param book
      * @param add
      */
-    void validPost(Book book, boolean add);
+    void validBook(Book book, boolean add);
 
     /**
      * 获取书籍封装

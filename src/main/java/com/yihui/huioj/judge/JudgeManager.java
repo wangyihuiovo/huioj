@@ -1,9 +1,9 @@
 package com.yihui.huioj.judge;
 
-import com.yihui.huioj.judge.strategy.DefaultJudgeStrategy;
-import com.yihui.huioj.judge.strategy.JavaLanguageJudgeStrategy;
-import com.yihui.huioj.judge.strategy.JudgeContext;
-import com.yihui.huioj.judge.strategy.JudgeStrategy;
+import com.yihui.huioj.strategy.DefaultJudgeStrategy;
+import com.yihui.huioj.strategy.JavaLanguageJudgeStrategy;
+import com.yihui.huioj.strategy.JudgeContext;
+import com.yihui.huioj.strategy.JudgeStrategy;
 import com.yihui.huioj.judge.codesandbox.model.JudgeInfo;
 import com.yihui.huioj.model.entity.QuestionSubmit;
 import org.springframework.stereotype.Service;

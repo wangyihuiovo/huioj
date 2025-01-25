@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yihui.huioj.common.ErrorCode;
 import com.yihui.huioj.exception.BusinessException;
 import com.yihui.huioj.exception.ThrowUtils;
+import com.yihui.huioj.mapper.BookFavourMapper;
 import com.yihui.huioj.mapper.BookMapper;
 import com.yihui.huioj.model.entity.*;
 import com.yihui.huioj.model.vo.BookVO;
@@ -34,19 +35,22 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book>
 
     @Resource
     private UserService userService;
+    @Resource
+    private BookFavourMapper bookFavourMapper;
 
     @Override
-    public void validPost(Book book, boolean add) {
+    public void validBook(Book book, boolean add) {
         if (book == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         String title = book.getTitle();
         String description = book.getDescription();
-        String coverUrl = book.getCoverUrl();
+        String tags = book.getTags();
+
 
         // 创建时，参数不能为空
         if (add) {
-            ThrowUtils.throwIf(StringUtils.isAnyBlank(title, description, coverUrl), ErrorCode.PARAMS_ERROR, "书籍校验参数错误");
+            ThrowUtils.throwIf(StringUtils.isAnyBlank(title, description, tags), ErrorCode.PARAMS_ERROR, "书籍校验参数错误");
         }
         // 有参数则校验
         if (StringUtils.isNotBlank(title) && title.length() > 30) {
@@ -55,12 +59,15 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book>
         if (StringUtils.isNotBlank(description) && description.length() > 2500) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "描述过长");
         }
+        if (StringUtils.isNotBlank(tags) && tags.length() > 256) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "标签过长");
+        }
     }
 
     @Override
     public BookVO getBookVO(Book book, HttpServletRequest request) {
         BookVO bookVO = BookVO.objToVo(book);
-        long postId = book.getId();
+        long bookId = book.getId();
         // 1. 关联查询用户信息
         Long userId = book.getUserId();
         User user = null;
@@ -72,68 +79,54 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book>
         // 2. 已登录，获取用户点赞、收藏状态
         User loginUser = userService.getLoginUserPermitNull(request);
         if (loginUser != null) {
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postId);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
-            PostThumb postThumb = postThumbMapper.selectOne(postThumbQueryWrapper);
-            bookVO.setHasThumb(postThumb != null);
             // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postId);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
-            PostFavour postFavour = postFavourMapper.selectOne(postFavourQueryWrapper);
-            bookVO.setHasFavour(postFavour != null);
+            QueryWrapper<BookFavour> bookFavourQueryWrapper = new QueryWrapper<>();
+            bookFavourQueryWrapper.in("bookId", bookId);
+            bookFavourQueryWrapper.eq("userId", loginUser.getId());
+            BookFavour bookFavour = bookFavourMapper.selectOne(bookFavourQueryWrapper);
+            bookVO.setHasFavour(bookFavour != null);
         }
         return bookVO;
     }
 
     @Override
     public Page<BookVO> getBookVOPage(Page<Book> bookPage, HttpServletRequest request) {
-        List<Post> postList = postPage.getRecords();
-        Page<PostVO> postVOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
-        if (CollUtil.isEmpty(postList)) {
-            return postVOPage;
+        List<Book> bookList = bookPage.getRecords();
+        Page<BookVO> bookVOPage = new Page<>(bookPage.getCurrent(), bookPage.getSize(), bookPage.getTotal());
+        if (CollUtil.isEmpty(bookList)) {
+            return bookVOPage;
         }
         // 1. 关联查询用户信息
-        Set<Long> userIdSet = postList.stream().map(Post::getUserId).collect(Collectors.toSet());
+        Set<Long> userIdSet = bookList.stream().map(Book::getUserId).collect(Collectors.toSet());
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 2. 已登录，获取用户点赞、收藏状态
-        Map<Long, Boolean> postIdHasThumbMap = new HashMap<>();
-        Map<Long, Boolean> postIdHasFavourMap = new HashMap<>();
+        Map<Long, Boolean> bookIdHasFavourMap = new HashMap<>();
         User loginUser = userService.getLoginUserPermitNull(request);
         if (loginUser != null) {
-            Set<Long> postIdSet = postList.stream().map(Post::getId).collect(Collectors.toSet());
+            Set<Long> bookIdSet = bookList.stream().map(Book::getId).collect(Collectors.toSet());
             loginUser = userService.getLoginUser(request);
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postIdSet);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
-            List<PostThumb> postPostThumbList = postThumbMapper.selectList(postThumbQueryWrapper);
-            postPostThumbList.forEach(postPostThumb -> postIdHasThumbMap.put(postPostThumb.getPostId(), true));
             // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postIdSet);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
-            List<PostFavour> postFavourList = postFavourMapper.selectList(postFavourQueryWrapper);
-            postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
+            QueryWrapper<BookFavour> bookFavourQueryWrapper = new QueryWrapper<>();
+            bookFavourQueryWrapper.in("bookId", bookIdSet);
+            bookFavourQueryWrapper.eq("userId", loginUser.getId());
+            List<BookFavour> bookFavourList = bookFavourMapper.selectList(bookFavourQueryWrapper);
+            bookFavourList.forEach(bookFavour -> bookIdHasFavourMap.put(bookFavour.getBookId(), true));
         }
         // 填充信息
-        List<PostVO> postVOList = postList.stream().map(post -> {
-            PostVO postVO = PostVO.objToVo(post);
-            Long userId = post.getUserId();
+        List<BookVO> bookVOList = bookList.stream().map(book -> {
+            BookVO bookVO = BookVO.objToVo(book);
+            Long userId = book.getUserId();
             User user = null;
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
             }
-            postVO.setUser(userService.getUserVO(user));
-            postVO.setHasThumb(postIdHasThumbMap.getOrDefault(post.getId(), false));
-            postVO.setHasFavour(postIdHasFavourMap.getOrDefault(post.getId(), false));
-            return postVO;
+            bookVO.setUser(userService.getUserVO(user));
+            bookVO.setHasFavour(bookIdHasFavourMap.getOrDefault(book.getId(), false));
+            return bookVO;
         }).collect(Collectors.toList());
-        postVOPage.setRecords(postVOList);
-        return postVOPage;
+        bookVOPage.setRecords(bookVOList);
+        return bookVOPage;
     }
 }
 

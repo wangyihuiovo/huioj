@@ -100,10 +100,12 @@ create table post_thumb
     comment '帖子点赞';
 
 create index idx_postId
-    on post_thumb (postId);
+    on book_rating (bookId);
 
 create index idx_userId
-    on post_thumb (userId);
+    on book_rating (userId);
+
+
 
 -- auto-generated definition
 create table question
@@ -235,6 +237,23 @@ create table book
     isDelete   tinyint  default 0                 not null comment '是否删除'
 )
     comment '书籍' collate = utf8mb4_unicode_ci;
+
+create table book_rating
+(
+    id         bigint auto_increment comment 'id'
+        primary key,
+    bookId     bigint                             not null comment '书籍 id',
+    userId     bigint                             not null comment '创建用户 id',
+    rating     int                                not null comment '评分',
+    createTime datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '书籍评分';
+
+create index idx_bookId
+    on book_rating (bookId);
+
+
 
 -- auto-generated definition
 create table chapter

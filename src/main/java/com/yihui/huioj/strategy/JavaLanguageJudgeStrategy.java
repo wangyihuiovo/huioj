@@ -1,11 +1,10 @@
-package com.yihui.huioj.judge.strategy;
+package com.yihui.huioj.strategy;
 
 import cn.hutool.json.JSONUtil;
 import com.yihui.huioj.model.dto.question.JudgeCase;
 import com.yihui.huioj.model.dto.question.JudgeConfig;
 import com.yihui.huioj.judge.codesandbox.model.JudgeInfo;
 import com.yihui.huioj.model.entity.Question;
-import com.yihui.huioj.model.entity.QuestionSubmit;
 import com.yihui.huioj.model.enums.JudgeInfoMessageEnum;
 
 import java.util.List;

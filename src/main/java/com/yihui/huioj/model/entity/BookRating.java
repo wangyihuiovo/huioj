@@ -16,36 +16,29 @@ import java.util.Date;
 @TableName(value ="book_rating")
 @Data
 public class BookRating implements Serializable {
-    /**
-     * 
-     */
+
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 
+     * 用户id
      */
     private Long userId;
 
     /**
-     * 
+     * 书籍id
      */
     private Long bookId;
 
     /**
-     * 
+     * 评分
      */
     private Integer rating;
 
     /**
-     * 
+     * 创建时间
      */
     private Date created_time;
-
-    /**
-     * 
-     */
-    private Date updated_time;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

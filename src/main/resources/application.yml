@@ -78,13 +78,6 @@ wx:
   # 微信开放平台
   # tod
 # 对象存储
-# todo 需替换配置
-cos:
-  client:
-    accessKey: xxx
-    secretKey: xxx
-    region: xxx
-    bucket: xxx
 # 接口文档配置
 knife4j:
   enable: true
@@ -100,3 +93,9 @@ knife4j:
 # 代码沙箱配置
 codesandbox:
   type: remote
+cos:
+  client:
+    bucket: huioj-picture-1329406077
+    region: ap-guangzhou
+    secret-key: Zv53nKelfLqAHBtOfjaDgwzpRq10oQo1
+    access-key: AKID5A7wcnqjsrgOxNrKe9uVxmaU1RhktwmT
